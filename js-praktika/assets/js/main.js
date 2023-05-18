@@ -1,4 +1,3 @@
-let row = document.querySelector(".row")
 
 // axios.get('http://api.disneyapi.dev/character?page=2&pageSize=12').then(resp => {
 
@@ -12,24 +11,32 @@ let row = document.querySelector(".row")
 //     }
 // });
 
-var nextpage = 'http://api.disneyapi.dev/character?page=1&pageSize=12';
-getDatas(nextpage)
-function getDatas(url) {
-    axios.get(url).then(resp => {
-        var list = resp.data.data;
-        nextpage = resp.data.data.nextPage;
-        row.innerHTML='';
-        list.forEach(el => {
+// axios.get('http://api.disneyapi.dev/character').then(resp => {
+//         var list=resp.data.data;
+//         list.forEach(el => {
+//             row.innerHTML += ` <div class="col-3"> <div class="card">
+//         <img src="${el.imageUrl}" class="card-img-top" alt="...">
+//         <div class="card-body">
+//           <h5 class="card-title">${el.name}</h5>
+//           <a href="#" class="btn btn-primary">Details</a></div></div></div> `
+//         });
+//     });
+
+
+
+let row = document.querySelector(".row")
+
+fetch('http://api.disneyapi.dev/character')
+    .then(res => res.json())
+    .then(json =>{
+        console.log(json)
+        json.data.forEach(el => {
             row.innerHTML += ` <div class="col-3"> <div class="card">
-        <img src="${el.imageUrl}" class="card-img-top" alt="...">
+        <img src="${el.imageUrl}" class="card-img-top">
         <div class="card-body">
           <h5 class="card-title">${el.name}</h5>
-          <a href="#" class="btn btn-primary">Details</a></div></div></div> `
-        });
-    });
-    nextpage=resp.data.data.nextPage
-}
-
-document.querySelector('button').addEventListener('click', function () {
-    getDatas(nextpage)
-})
+          <a href="${el.sourceUrl}" class="btn btn-primary">Details</a></div></div></div> `
+        })
+    }
+        
+    )
